@@ -1,22 +1,24 @@
 #include <iostream>
+#include<string>
 #include <fstream>
 #include <sstream>
 using namespace std;
 
 struct datos{
-    int id;
+    string id;
     string movie;
     string genders;
-    int duration;
+    string duration;
     string director;
     string release_on;
     string rent_to;
     string rent_on;
     string status;
-}peliculas[2000];
-
+};
 
 int main(){
+    datos peliculas[2000];
+
     int resp = 0;
     int count = 0;
     int nline = 0;
@@ -36,10 +38,10 @@ int main(){
     while (getline(infile,line)){
         stringstream str(line);
 
-        while(getline (str,word,';')){
+        while(getline (str,word,',')){
             switch (count){
                 case 0:
-                peliculas[nline].id = stoi(word);
+                peliculas[nline].id =  word;
                 break;
 
                 case 1:
@@ -51,7 +53,7 @@ int main(){
                 break;
 
                 case 3:
-                peliculas[nline].duration = stoi(word);
+                peliculas[nline].duration = word;
                 break;
 
                 case 4:
@@ -85,6 +87,27 @@ int main(){
     cout << "                    3-visualizar la data " << endl;
     cin >> resp;
 
+    switch(resp){
+        case 1:
 
+        break;
+
+        case 2:
+        break;
+
+        case 3:
+
+         for (int i = 0; i < 1000; i ++){
+           cout << "|"<< peliculas[i].id << " | " << peliculas[i].movie << "|";
+           cout << peliculas[i].director << " | " ;
+           cout << peliculas[i].rent_to << " | " << peliculas[i].rent_on << "|";
+           cout << peliculas[i].status << " | "  << endl;  
+
+
+         }
+
+
+        break;
+    }
 
 }
