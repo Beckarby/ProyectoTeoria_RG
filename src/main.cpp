@@ -22,6 +22,12 @@ struct datos{
     string status;
 }peliculas[2000];
 
+void imprimir_bin(string);
+
+fstream outdata("../datos/client_info.bin", fstream::in | fstream::out | fstream::binary);
+ifstream infile("../datos/movies.csv", fstream::in);
+
+
 
 int main(){
     int resp = 0;
@@ -39,11 +45,10 @@ int main(){
     string fecha_rent = " ";
     string pelicula_rented = " ";
     string id_cliente = " ";  
+
     int name_id = 0;
-
-    ifstream infile("../datos/movies.csv", fstream::in);
-    ofstream outdata("../datos/client_info.bin",fstream::in | fstream::out | fstream::binary);
-
+    
+    
     if(!outdata.is_open()  || !infile.is_open()){
         cout <<"ERROR - ARCHIVO NO ENCONTRADO" << endl;
         return 0;
@@ -221,16 +226,21 @@ int main(){
             return 0;
             break;
         }
+        break;
     case 5: // Rentar
         cout << "Ingrese el nombre del cliente" << endl;
         cin >> nombre_cliente;
+        imprimir_bin(nombre_cliente);
         cout << "Ingrese la pelicula a rentar" << endl;
         cin >> pelicula_rented;
+        imprimir_bin(pelicula_rented);
         cout << "Ingrese la fecha a rentar" << endl;
         cin >> fecha_rent;
+        imprimir_bin(fecha_rent);
         cout << "id del cliente" << endl;
         cin >> id_cliente;
-        //esta informacion se guarda en un archivo aparte .bin
+        imprimir_bin(id_cliente);
+
         break;
 
 
@@ -263,4 +273,11 @@ int main(){
         break;
     }
 
+}
+
+void imprimir_bin(string oracion){
+
+    do {
+        outdata.write((char*) &oracion, sizeof(char));
+    } while(oracion.length() < 100);     
 }
