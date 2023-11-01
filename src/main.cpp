@@ -22,10 +22,10 @@ struct datos{
     string status;
 }peliculas[2000];
 
-void imprimir_bin(string);
+void imprimir_bin_str(const string& oracion);
 
-fstream outdata("../datos/client_info.bin", fstream::in | fstream::out | fstream::binary);
-ifstream infile("../datos/movies.csv", fstream::in);
+fstream outdata("C:/Users/HOME/Desktop/trabajos/programas/ProyectoTeoria_RG/datos/data_renta.bin", fstream::in | fstream::out | fstream::binary);
+ifstream infile("C:/Users/HOME/Desktop/trabajos/programas/ProyectoTeoria_RG/datos/movies.csv", fstream::in);
 
 
 
@@ -40,7 +40,7 @@ int main(){
     int tipo_filtro_precio = 0; 
     string gender_search = " "; 
     string director_search =  " ";
-    string fecha = 0;
+    string fecha = " ";
     string nombre_cliente = " ";
     string fecha_rent = " ";
     string pelicula_rented = " ";
@@ -49,7 +49,7 @@ int main(){
     int name_id = 0;
     
     
-    if(!outdata.is_open()  || !infile.is_open()){
+    if(!infile.is_open()){
         cout <<"ERROR - ARCHIVO NO ENCONTRADO" << endl;
         return 0;
     }else{
@@ -106,6 +106,7 @@ int main(){
     cout << "4.-Filtrado" << endl;
     cout << "5.-Rentar" << endl;
     cout << "6.-Busqueda de cliente" << endl;
+    cin >> resp;
 
     switch (resp)
     {
@@ -230,16 +231,16 @@ int main(){
     case 5: // Rentar
         cout << "Ingrese el nombre del cliente" << endl;
         cin >> nombre_cliente;
-        imprimir_bin(nombre_cliente);
+        imprimir_bin_str(nombre_cliente);
         cout << "Ingrese la pelicula a rentar" << endl;
         cin >> pelicula_rented;
-        imprimir_bin(pelicula_rented);
+        imprimir_bin_str(pelicula_rented);
         cout << "Ingrese la fecha a rentar" << endl;
         cin >> fecha_rent;
-        imprimir_bin(fecha_rent);
+        imprimir_bin_str(fecha_rent);
         cout << "id del cliente" << endl;
         cin >> id_cliente;
-        imprimir_bin(id_cliente);
+        imprimir_bin_str(id_cliente);
 
         break;
 
@@ -275,9 +276,8 @@ int main(){
 
 }
 
-void imprimir_bin(string oracion){
 
-    do {
-        outdata.write((char*) &oracion, sizeof(char));
-    } while(oracion.length() < 100);     
+void imprimir_bin_str(const string& oracion){
+    outdata.write(oracion.c_str(), oracion.length());
 }
+
