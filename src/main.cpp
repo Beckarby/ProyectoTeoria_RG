@@ -14,25 +14,28 @@ struct datos{
     string rent_to;
     string rent_on;
     string status;
+    string rent_exp; 
 };
 
 int main(){
     datos peliculas[2000];
-
+    int n = 0;
+    int i = 0;
     int resp = 0;
     int count = 0;
     int nline = 0;
+    int p = 0;
     string line,word;
 
     ifstream infile("../datos/movies.csv", istream :: in);
     ofstream outfile("../datos/movies.csv", ofstream :: out | ios_base :: app);
 
     if(!outfile.is_open()  || !infile.is_open()){
-        cout <<"No se encontro el archivo" << endl;
+        std::cout <<"No se encontro el archivo" << endl;
         return 0;
 
     }else{
-        cout << "Se encontro el archivo" << endl;
+        std::cout << "Se encontro el archivo" << endl;
     }
 
     while (getline(infile,line)){
@@ -81,33 +84,60 @@ int main(){
         count = 0;
     }
 
-    cout << "              *****BIENVENIDO*****" << endl;
-    cout << "                    1-Buscar " << endl;
-    cout << "                    2-agregar pelicula" << endl;
-    cout << "                    3-visualizar la data " << endl;
-    cin >> resp;
+    std::cout << "              *****BIENVENIDO*****" << endl;
+    std::cout << "                    1-visualizar lista de peliculas " << endl;
+    std::cout << "                    2-Ver el estado de la pelicula" << endl;
+    std::cout << "                    3-agregar nueva peiculas" << endl;
+    std::cin >> resp;
+
 
     switch(resp){
         case 1:
+         std:: cout << "     ***Lista***" << endl;
+         std:: cout << " " << endl;
+         for (int i = 0; i < 1001; i ++){
+         std::cout << "|"<< peliculas[i ].id << " | " << peliculas[i ].movie << "|";
+         std::cout << peliculas[i ].director << " | " ;
+  
+        }
 
         break;
 
         case 2:
+        system("clear");
+        
+
+        std::cout << "Cual es la id de la pelicula a revisar??" << endl;
+
+        if (peliculas[i].status == " "){
+
+         peliculas[i].status =  "Disponible ";
+         peliculas[i].rent_to = "Nadie";
+         peliculas[i].rent_on = "Nadie";
+          
+        }else if(peliculas[i].status == "alquilado "){
+            std::cout <<"     ***Estado de la pelicula****" << endl;
+            std::cout <<" Nombre: " << peliculas[i].movie << endl;
+            std::cout <<" Estado: " << peliculas[i].status << endl;
+            std::cout <<" Rentada a " << peliculas[i].rent_to << endl;
+            std::cout <<" fecha de renta " << peliculas[i].rent_on << endl;
+
+        }else if(peliculas[i].status == "devuelto "){
+            std::cout <<"     ***Estado de la pelicula****" << endl;
+            std::cout <<" Nombre: " << peliculas[i].movie << endl;
+            std::cout <<" Estado: " << peliculas[i].status << endl;
+             
+        }else if(peliculas[i].status == "caducado "){
+            std::cout <<"     ***Estado de la pelicula****" << endl;
+            std::cout <<" Nombre: " << peliculas[i].movie << endl;
+            std::cout <<" Estado: " << peliculas[i].status << endl;
+            std::cout <<" fecha que se rento: " << peliculas[i].rent_on << endl;
+            std::cout <<" fecha que se expiro: " << peliculas[i].rent_exp << endl;
+        } ;
+
+
         break;
+    
 
-        case 3:
-
-         for (int i = 0; i < 1000; i ++){
-           cout << "|"<< peliculas[i].id << " | " << peliculas[i].movie << "|";
-           cout << peliculas[i].director << " | " ;
-           cout << peliculas[i].rent_to << " | " << peliculas[i].rent_on << "|";
-           cout << peliculas[i].status << " | "  << endl;  
-
-
-         }
-
-
-        break;
     }
-
 }
