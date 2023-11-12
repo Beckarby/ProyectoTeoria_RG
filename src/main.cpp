@@ -1,7 +1,9 @@
 #include <iostream>
-#include<string>
+#include <string>
 #include <fstream>
 #include <sstream>
+#include <stdlib.h>
+ 
 using namespace std;
 
 struct datos{
@@ -24,11 +26,15 @@ int main(){
     int resp = 0;
     int count = 0;
     int nline = 0;
-    int p = 0;
+    int cont_pelis = 0;
+    int cont_peli_agg = 0;
     string line,word;
+    string agg = " "; // esta variable es para agregar los nombres y campos de las nuevas pelis
 
     ifstream infile("../datos/movies.csv", istream :: in);
     ofstream outfile("../datos/movies.csv", ofstream :: out | ios_base :: app);
+
+    infile.open("../datos/movies.csv", ios :: app);
 
     if(!outfile.is_open()  || !infile.is_open()){
         std::cout <<"No se encontro el archivo" << endl;
@@ -40,7 +46,7 @@ int main(){
 
     while (getline(infile,line)){
         stringstream str(line);
-
+         cont_pelis = cont_pelis + 1;
         while(getline (str,word,',')){
             switch (count){
                 case 0:
@@ -108,6 +114,8 @@ int main(){
         
 
         std::cout << "Cual es la id de la pelicula a revisar??" << endl;
+        do{
+        std::cin >> n;
 
         if (peliculas[i].status == " "){
 
@@ -134,10 +142,53 @@ int main(){
             std::cout <<" fecha que se rento: " << peliculas[i].rent_on << endl;
             std::cout <<" fecha que se expiro: " << peliculas[i].rent_exp << endl;
         } ;
-
+        }while(n <= cont_pelis);
 
         break;
-    
+
+        case 3:
+        
+        do{
+         system("clear");
+         cont_peli_agg = cont_pelis + 1 ;
+
+
+         std::cout << "*** Vamos a agregar nuevas peliculas al menu ***" << endl;
+         std::cout << " Ing. El nombre de la pelicula: " << endl;
+         std::cin >>agg;
+
+         peliculas[cont_peli_agg].id = cont_peli_agg;
+         peliculas[cont_peli_agg].movie = agg ;
+        
+         std::cout << " Ing. El genero: "<< endl;
+         std::cin >>agg;
+
+         peliculas[cont_peli_agg].genders = agg;
+
+         std::cout << " Ing. la duracion: " << endl;
+         std::cin >>agg;
+
+         peliculas[cont_peli_agg].duration = agg;
+
+         std::cout << " Ing. El nombre del director: " << endl;
+         std::cin >>agg;
+
+         peliculas[cont_peli_agg].director = agg;
+
+         std::cout << " Ing. La fecha de lanzamiento (escribalo con espacios; primero el dia,mes y año): " << endl;
+         std::cin >>agg;
+
+         peliculas[cont_peli_agg].release_on = agg;
+
+         std::cout << " Quieres agregar otras??:" << endl;
+         std::cout << " 1 para si y 2 para no" << endl;
+         std::cin >> resp;
+
+        }while(resp == 2);
+        
+        break;    
 
     }
+
+    infile.close();
 }
