@@ -3,8 +3,6 @@
 //guardar la informacion del cliente en un archivo aparte(El archivo debe ser en binario, 
 //para guardar la informacion del cliente en un archivo aparte
 //6.-Buscar por id o por nombre a un cliente
-
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -78,7 +76,6 @@ int main(){
     int size;
     int name_id = 0;
     int result;
-    string GendersMovies[10][10];
 
     outdata << "ID cliente - Nombre - Pelicula - Fecha" << endl;
     
@@ -95,43 +92,44 @@ int main(){
             
             switch (count){
                 case 0:
-                peliculas[nline].id = stoi(word);
-                break;
+                    peliculas[nline].id = stoi(word);
+                    break;
 
                 case 1:
-                peliculas[nline].movie = word;
-                break;
+                    peliculas[nline].movie = word;
+                    break;
 
                 case 2:
-                peliculas[nline].genders = word;
-                break;
+                    peliculas[nline].genders = word;        
+                    break;
 
                 case 3:
-                peliculas[nline].duration = stoi(word);
-                break;
+                    peliculas[nline].duration = stoi(word);
+                    break;
 
                 case 4:
-                peliculas[nline].director = word;
-                break;
+                    peliculas[nline].director = word;
+                    break;
 
                 case 5:
-                peliculas[nline].price = stof(word);
-                break;
+                    peliculas[nline].price = stof(word);
+                    break;
 
                 case 6:
-                peliculas[nline].release_on = word;
-                break;
+                    peliculas[nline].release_on = word;
+                    break;
 
                 case 7:
-                peliculas[nline].rent_to = word;
-                break;
+                    peliculas[nline].rent_to = word;
+                    break;
 
                 case 8:
-                peliculas[nline].rent_on = word;
-                break;
+                    peliculas[nline].rent_on = word;
+                    break;
 
                 case 9:
-                peliculas[nline].status = word;
+                    peliculas[nline].status = word;
+                    break;
             }
             count ++;
         }
@@ -151,6 +149,7 @@ int main(){
         UnOrderedDate[i] = peliculas[i].release_on;
         OrderByPrice[i] = peliculas[i].price;
         UnOrderedPrice[i] = peliculas[i].price;
+        
     }
 
 
@@ -228,45 +227,42 @@ int main(){
             break;
         case 2:
             std::cout << "A elegido el filtro por genero" << endl;
-            std::cout << "Ingrese 1 para que sea por orden alfabetico" << endl;
-            std::cout << "Ingrese 2 para elegir el genero que quiera buscar" << endl;
+            std::cout << "Ingrese 1 para elegir el genero que quiera buscar" << endl;
+            std::cin.get();
             std::cin >> tipo_filtro_genero;
 
             while (tipo_filtro_genero != 1 && tipo_filtro_genero != 2)
             {
                 std::cout << "ERROR - VALOR INVALIDO" << endl;
                 std::cout << "Ingrese un valor valido" << endl;
-                std::cout << "1 para filtrar por orden alfabetico" << endl;
-                std::cout << "2 para filtrar por genero especifico" << endl;
+                std::cout << "1 para filtrar por genero especifico" << endl;
                 std::cin >> tipo_filtro_genero;
             }
 
             if (tipo_filtro_genero == 1)
             {
-                std::cout << "A continuacion se mostraran todas las peliculas en orden alfabetico" << endl;
-                //se imprime las peliculas en orden alfabetico
+                std::cout << "Ingrese el genero que quiera buscar" << endl;
+                std::cin.get();
+                std::getline(cin, gender_search);
 
-                
-                
                 
 
             }
             else 
             {
-                std::cout << "Ingrese el genero que quiera buscar" << endl;
-                std::cin >> gender_search;
-
-                //buscamos los generos
+                std::cout << "El valor que ha ingresado no ha sido valido" << endl;
+                return 0;
 
             }
             break;
         case 3:
             std::cout << "A elegido el filtro por duracion" << endl;
-            std::cout << "A continuacion apareceran la duracion de las peliculas de mayor a menor" << endl;
+            std::cout << "A continuacion apareceran la duracion de las peliculas de menor a mayor" << endl;
+            
 
             size = sizeof(OrderByDuration) / sizeof(OrderByDuration[0]);
             quickSort(OrderByDuration, 0, size -1);
-            for (int i = 1001; i > 0; i--)
+            for (int i = 0; i < 1001; i++)
             {
                 std::cout << "Duracion: " << OrderByDuration[i] << "min" << endl;
                 result = linearSearch(UnOrderedDuration, size, OrderByDuration[i]);
@@ -500,13 +496,13 @@ int main(){
         {
             std::cout << "Ingrese el nombre a buscar" << endl;
             std::cin.get();
-            std::getline(cin, nombre_cliente);
+            std::getline(std::cin, nombre_cliente);
         }
         else
         {
             std::cout << "Ingrese el id a buscar" << endl;
             std::cin.get();
-            std::getline(cin, id_cliente);
+            std::getline(std::cin, id_cliente);
         }
         
         break;
