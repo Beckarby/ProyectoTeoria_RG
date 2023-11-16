@@ -34,12 +34,8 @@ template <typename T>
 int linearSearch(T arr[], int n, T x);
 
 
-
-void printInBin(const std::string& str, const std::string& filename);
-
 fstream outdata("data_renta.bin", ios::out | ios::binary);
 ifstream infile("C:/Users/HOME/Desktop/trabajos/programas/ProyectoTeoria_RG/datos/movies.csv");
-
 
 
 int main(){
@@ -76,6 +72,7 @@ int main(){
     int size;
     int name_id = 0;
     int result;
+    const int maxdelim = 10;
 
     outdata << "ID cliente - Nombre - Pelicula - Fecha" << endl;
     
@@ -149,6 +146,7 @@ int main(){
         UnOrderedDate[i] = peliculas[i].release_on;
         OrderByPrice[i] = peliculas[i].price;
         UnOrderedPrice[i] = peliculas[i].price;
+
         
     }
 
@@ -241,9 +239,12 @@ int main(){
 
             if (tipo_filtro_genero == 1)
             {
+                size = sizeof(OrderByGender) / sizeof(OrderByGender);
                 std::cout << "Ingrese el genero que quiera buscar" << endl;
                 std::cin.get();
                 std::getline(cin, gender_search);
+
+                
 
                 
 
@@ -427,8 +428,8 @@ int main(){
                     return 0;
                 } else {
                     std::cout << "Pelicula encontrada" << endl;
-                    result = binarySearch(OrderByPrice, size, precio_search);
-                    std:: cout << "Pelicula: " << peliculas[result].movie << endl;
+                    result = linearSearch(UnOrderedPrice, size, precio_search);
+                    std::cout << "Pelicula: " << peliculas[result].movie << endl;
                     std::cout << "Genero: " << peliculas[result].genders << endl;
                     std::cout << "Duracion: " << peliculas[result].duration << endl;
                     std::cout << "Director: " << peliculas[result].director << endl;
@@ -575,3 +576,4 @@ int linearSearch(T arr[], int n, T x) {
 	return -1;
 
 }
+
