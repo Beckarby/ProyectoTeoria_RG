@@ -34,7 +34,7 @@ int linearSearch(T arr[], int n, T x);
 
 
 ofstream outdata("data_renta.bin", std::ofstream::app );
-ifstream infile("C:/Users/HOME/Desktop/trabajos/programas/ProyectoTeoria_RG/datos/movies.csv");
+ifstream infile("../datos/movies.csv");
 
 
 int main(){
