@@ -1,7 +1,3 @@
-//4.-Realizar una renta de pelicula (agregar nombre en el campo rent_to de la data) y
-//guardar la informacion del cliente en un archivo aparte(El archivo debe ser en binario, 
-//para guardar la informacion del cliente en un archivo aparte
-//6.-Buscar por id o por nombre a un cliente
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -152,7 +148,7 @@ int main(){
 
     switch (resp)
     {
-    case 4:  // Filtrado
+    case 4: 
         std::cout << "Elige el tipo de filtro" << endl;
         std::cout << "1.- nombre" << endl;
         std::cout << "2.- genero" << endl;
@@ -459,7 +455,7 @@ int main(){
             break;
         }
         break;
-    case 5: // Rentar
+    case 5: 
         size = sizeof(OrderByMovies) / sizeof(OrderByMovies[0]);    
         quickSort(OrderByMovies, 0, size -1);
 
