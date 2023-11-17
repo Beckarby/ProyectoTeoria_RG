@@ -4,6 +4,7 @@
 #include <string>
 #include <bits/stdc++.h>
 #include <algorithm>
+#include <stdlib.h>
 using namespace std;
 
 struct datos{
@@ -17,6 +18,7 @@ struct datos{
     string rent_to;
     string rent_on;
     string status;
+    string rent_exp;
 }peliculas[2000];
 
 template <typename T>
@@ -30,14 +32,19 @@ int linearSearch(T arr[], int n, T x);
 
 
 ofstream outdata("data_renta.bin", std::ofstream::app );
-ifstream infile("../datos/movies.csv");
 
 
 int main(){
+    datos peliculas[2000];
+    int n = 0;
+    int i = 0;
     int resp = 0;
     int count = 0;
     int nline = 0;
+    long long int cont_pelis = 0;
+    long long int cont_peli_agg = 0;
     string line, word;
+    string agg = " ";
     int filtro = 0; 
     int tipo_filtro_nombre = 0;
     int tipo_filtro_director = 0;
@@ -67,7 +74,8 @@ int main(){
     int name_id = 0;
     int result;
    
-    
+    fstream infile("../movies.csv");
+
     if(!infile.is_open()){
         std::cout <<"ERROR - ARCHIVO NO ENCONTRADO" << endl;
         return 0;
@@ -141,6 +149,9 @@ int main(){
 
 
     std::cout << "|| BIENVENIDO ||" << endl;
+    std::cout << "1-Visualizar lista de peliculas " << endl;
+    std::cout << "2-Visualizar el estado de la pelicula" << endl;
+    std::cout << "3.-Agregar nueva peliculas" << endl;
     std::cout << "4.-Filtrado" << endl;
     std::cout << "5.-Rentar" << endl;
     std::cout << "6.-Busqueda de cliente" << endl;
@@ -148,6 +159,143 @@ int main(){
 
     switch (resp)
     {
+    case 1:
+         std::cout << "     ***Lista***" << endl;
+         std::cout << " " << endl;
+         for (int i = 0; i < 1001; i ++){
+         std::cout << "|"<< peliculas[i ].id << " | " << peliculas[i ].movie << "|";
+         std::cout << peliculas[i ].director << " | " << endl;
+  
+        }
+
+        break;
+
+        case 2:
+        system("cls");
+
+        do{
+         std::cout << "Cual es la id de la pelicula a revisar??" << endl;   
+         std::cin >> n;
+         i = n - 1; 
+
+        if (peliculas[i].status.empty()){
+
+         peliculas[i].status =  "Disponible ";
+         peliculas[i].rent_to = "Nadie";
+         peliculas[i].rent_on = "Nadie";
+
+            std::cout <<"     ***Estado de la pelicula****" << endl;
+            std::cout <<" Nombre: " << peliculas[i].movie << endl;
+            std::cout <<" Estado: " << peliculas[i].status << endl;
+            std::cout <<" Rentada a " << peliculas[i].rent_to << endl;
+          
+        }else if(peliculas[i].status == "alquilado"){
+            std::cout <<"     ***Estado de la pelicula****" << endl;
+            std::cout <<" Nombre: " << peliculas[i].movie << endl;
+            std::cout <<" Estado: " << peliculas[i].status << endl;
+            std::cout <<" Rentada a " << peliculas[i].rent_to << endl;
+            std::cout <<" fecha de renta " << peliculas[i].rent_on << endl;
+
+        }else if(peliculas[i].status == "devuelto"){
+            std::cout <<"     ***Estado de la pelicula****" << endl;
+            std::cout <<" Nombre: " << peliculas[i].movie << endl;
+            std::cout <<" Estado: " << peliculas[i].status << endl;
+             
+        }else if(peliculas[i].status == "caducado"){
+            std::cout <<"     ***Estado de la pelicula****" << endl;
+            std::cout <<" Nombre: " << peliculas[i].movie << endl;
+            std::cout <<" Estado: " << peliculas[i].status << endl;
+            std::cout <<" fecha que se rento: " << peliculas[i].rent_on << endl;
+            std::cout <<" fecha que se expiro: " << peliculas[i].rent_exp << endl;
+        } 
+            std::cout << " " << endl;
+            std::cout << "Quieres revisar otra ??:" << endl;
+            std::cout << "1-para si " << endl;
+            std::cout << "2-para no " << endl;
+
+            do{
+                std::cin >> resp;
+
+               if(resp != 1 && resp != 2){
+                 std::cout << "Error..." << endl;
+                 std::cout << "Respuesta invalida seleccione una correcta:" << endl;
+                }else{
+                 std::cout << "Procesando.." << endl;
+                 system("cls");
+                }
+            }while(resp != 1 && resp != 2);
+
+        }while(n <= cont_pelis && resp != 2);
+
+        break;
+
+        case 3:
+        cont_peli_agg = cont_pelis;
+        //
+
+        do{
+         system("cls");
+         
+         cont_peli_agg = cont_peli_agg + 1;
+
+         std::cout << "*** Vamos a agregar nuevas peliculas al menu ***" << endl;
+         std::cout << " Ing. El nombre de la pelicula: " << endl;
+         std::cin.get();
+         getline (std::cin,agg);
+
+         peliculas[cont_peli_agg].id = cont_peli_agg;
+         peliculas[cont_peli_agg].movie = agg ;
+        
+         std::cout << " Ing. El genero: "<< endl;
+         std::cin.get();
+         getline (std::cin,agg);
+
+         peliculas[cont_peli_agg].genders = agg;
+
+         std::cout << " Ing. la duracion: " << endl;
+         std::cin.get();
+         std::cin>>agg;
+
+         peliculas[cont_peli_agg].duration = stoi(agg);
+
+         std::cout << " Ing. El nombre del director: " << endl;
+         std::cin.get();
+         getline (std::cin,agg);
+
+         peliculas[cont_peli_agg].director = agg;
+
+         std::cout << " Ing. La fecha de lanzamiento (escribalo con espacios; primero el dia,mes y año): " << endl;
+         std::cin.get();
+         getline (std::cin,agg);
+
+         peliculas[cont_peli_agg].release_on = agg;
+
+         infile << peliculas[cont_peli_agg].id << ";" << peliculas[cont_peli_agg].movie + ";"
+          << peliculas[cont_peli_agg].genders +";" << peliculas[cont_peli_agg].duration <<";" 
+          << peliculas[cont_peli_agg].director + ";" << peliculas[cont_peli_agg].price <<";" 
+          << peliculas[cont_peli_agg].release_on + ";" << peliculas[cont_peli_agg].rent_to + ";" 
+          << peliculas[cont_peli_agg].status << endl;
+
+         std::cout << " Quieres agregar otras??:" << endl;
+         std::cout << " 1 para si y 2 para no" << endl;
+
+          std::cin.get();
+         do{
+             std::cin >> resp;
+
+             if( resp != 1  && resp != 2){
+                std::cout << "Error...." << endl;
+                std::cout << "No pudo ser procesado por favor ingrese un numero valido" << endl;
+
+             }else{
+                std::cout << "Procesando.." << endl;
+                system("cls");
+             }
+         }while (resp != 1 && resp != 2);
+         
+        }while(resp != 2);
+        
+        break;    
     case 4: 
         std::cout << "Elige el tipo de filtro" << endl;
         std::cout << "1.- nombre" << endl;
@@ -618,6 +766,3 @@ int linearSearch(T arr[], int n, T x) {
 	return -1;
 
 }
-
-
-
