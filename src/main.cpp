@@ -1,4 +1,3 @@
-//2.-Establecer un filtrado por genero, duracion, director, fecha de lanzamiento y precio
 //4.-Realizar una renta de pelicula (agregar nombre en el campo rent_to de la data) y
 //guardar la informacion del cliente en un archivo aparte(El archivo debe ser en binario, 
 //para guardar la informacion del cliente en un archivo aparte
@@ -45,7 +44,6 @@ int main(){
     string line, word;
     int filtro = 0; 
     int tipo_filtro_nombre = 0;
-    int tipo_filtro_genero = 0;
     int tipo_filtro_director = 0;
     int tipo_filtro_precio = 0; 
     string pelicula_search = " ";
@@ -219,50 +217,61 @@ int main(){
             
             break;
         case 2:
+
             std::cout << "A elegido el filtro por genero" << endl;
             std::cout << "Ingrese el genero que quiera buscar" << endl;
             std::cin.get();
             std::getline(cin, gender_search);
-            size = sizeof(OrderByGender) / sizeof(OrderByGender);
-            quickSort(OrderByGender, 0, size -1);
-            result = binarySearch(OrderByGender, size, gender_search);
-            if (result == -1){
-                std::cout << "Ese genero no se encuentra en nuestra base de datos" << endl;
-                return 0;
-            } else {
-                size = sizeof(UnOrderedGender) / sizeof(UnOrderedGender[0]);
-                for (int i = 0; i < size; i++)
-                {
-                    if (UnOrderedGender[i] == gender_search)    
-                    {
-                        std::cout << "Pelicula: " << peliculas[i].movie << endl;
-                        std::cout << "Generos: " << peliculas[i].genders << endl;
-                        std::cout << "Duracion: " << peliculas[i].duration << endl;
-                        std::cout << "Director: " << peliculas[i].director << endl;
-                        std::cout << "Precio: " << peliculas[i].price << endl;
-                        if(peliculas[result].status == ""){
-                            std::cout << "Estado: Disponible" << endl; 
-                        } else{
-                        std::cout << "Estado: Ocupada" << endl;
-                        }
-                    } else if (UnOrderedGender[i].find(gender_search) != std::string::npos)
-                    {
-                        std::cout << "Pelicula: " << peliculas[i].movie << endl;
-                        std::cout << "Generos: " << peliculas[i].genders << endl;
-                        std::cout << "Duracion: " << peliculas[i].duration << endl;
-                        std::cout << "Director: " << peliculas[i].director << endl;
-                        std::cout << "Precio: " << peliculas[i].price << endl;
-                        if(peliculas[result].status == ""){
-                            std::cout << "Estado: Disponible" << endl; 
-                        } else{
-                            std::cout << "Estado: Ocupada" << endl;
-                        }
-                    }          
-                   
+
+            for (int i = 0; i < nline; i++)
+            {
+                if(UnOrderedGender[i].find(gender_search) != std::string::npos){
+                    std::cout << "Pelicula: " << peliculas[i].movie << endl;
+                    std::cout << "Generos: " << peliculas[i].genders << endl;
+                    std::cout << "Duracion: " << peliculas[i].duration << endl;
+                    std::cout << "Director: " << peliculas[i].director << endl;
+                    std::cout << "Precio: " << peliculas[i].price << endl;
+                    if(peliculas[i].status == ""){
+                        std::cout << "Estado: Disponible" << endl; 
+                    } else{
+                    std::cout << "Estado: Ocupada" << endl;
+                    }
                 }
-                    
-                
             }
+            
+            
+            
+            /*
+            for (int i = 0; i < size; i++)
+            {
+                if (UnOrderedGender[i] == gender_search)    
+                {
+                    std::cout << "Pelicula: " << peliculas[i].movie << endl;
+                    std::cout << "Generos: " << peliculas[i].genders << endl;
+                    std::cout << "Duracion: " << peliculas[i].duration << endl;
+                    std::cout << "Director: " << peliculas[i].director << endl;
+                    std::cout << "Precio: " << peliculas[i].price << endl;
+                    if(peliculas[result].status == ""){
+                        std::cout << "Estado: Disponible" << endl; 
+                    } else{
+                    std::cout << "Estado: Ocupada" << endl;
+                    }
+                } else if (UnOrderedGender[i].find(gender_search) != std::string::npos)
+                {
+                    std::cout << "Pelicula: " << peliculas[i].movie << endl;
+                    std::cout << "Generos: " << peliculas[i].genders << endl;
+                    std::cout << "Duracion: " << peliculas[i].duration << endl;
+                    std::cout << "Director: " << peliculas[i].director << endl;
+                    std::cout << "Precio: " << peliculas[i].price << endl;
+                    if(peliculas[result].status == ""){
+                        std::cout << "Estado: Disponible" << endl; 
+                    } else{
+                        std::cout << "Estado: Ocupada" << endl;
+                    }
+                }                             
+            }
+            */
+                    
             break;
         case 3:
             std::cout << "A elegido el filtro por duracion" << endl;
@@ -489,10 +498,15 @@ int main(){
         }
 
         if (outdata.tellp() == 0) { 
-            outdata << endl << "ID cliente - Nombre - Pelicula - Fecha";
+            outdata << endl << "Pelicula - ID cliente - Nombre - Fecha";
         } else {
             outdata << "\n";
         }
+
+        std::cout << "Ingrese la pelicula a rentar: ";
+        std::cin >> pelicula_rented;
+        outdata << " " << pelicula_rented;
+        
 
         std::cout << "id del cliente: ";
         std::cin >> id_cliente;
@@ -502,9 +516,6 @@ int main(){
         std::cin >> nombre_cliente;
         outdata << " " << nombre_cliente;
 
-        std::cout << "Ingrese la pelicula a rentar: ";
-        std::cin >> pelicula_rented;
-        outdata << " " << pelicula_rented;
 
         std::cout << "Ingrese la fecha a rentar: " << endl;
         std::cout << "El formate a ingresar es." << endl;
