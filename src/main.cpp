@@ -237,40 +237,8 @@ int main(){
                     std::cout << "Estado: Ocupada" << endl;
                     }
                 }
+                std::cout << endl;
             }
-            
-            
-            
-            /*
-            for (int i = 0; i < size; i++)
-            {
-                if (UnOrderedGender[i] == gender_search)    
-                {
-                    std::cout << "Pelicula: " << peliculas[i].movie << endl;
-                    std::cout << "Generos: " << peliculas[i].genders << endl;
-                    std::cout << "Duracion: " << peliculas[i].duration << endl;
-                    std::cout << "Director: " << peliculas[i].director << endl;
-                    std::cout << "Precio: " << peliculas[i].price << endl;
-                    if(peliculas[result].status == ""){
-                        std::cout << "Estado: Disponible" << endl; 
-                    } else{
-                    std::cout << "Estado: Ocupada" << endl;
-                    }
-                } else if (UnOrderedGender[i].find(gender_search) != std::string::npos)
-                {
-                    std::cout << "Pelicula: " << peliculas[i].movie << endl;
-                    std::cout << "Generos: " << peliculas[i].genders << endl;
-                    std::cout << "Duracion: " << peliculas[i].duration << endl;
-                    std::cout << "Director: " << peliculas[i].director << endl;
-                    std::cout << "Precio: " << peliculas[i].price << endl;
-                    if(peliculas[result].status == ""){
-                        std::cout << "Estado: Disponible" << endl; 
-                    } else{
-                        std::cout << "Estado: Ocupada" << endl;
-                    }
-                }                             
-            }
-            */
                     
             break;
         case 3:
@@ -288,9 +256,10 @@ int main(){
                 std::cout << "Precio: " << peliculas[result].price << endl;
                 if(peliculas[result].status == ""){
                     std::cout << "Estado: Disponible" << endl; 
-                    }else{
-                        std::cout << "Estado: Ocupada" << endl;
+                }else{
+                    std::cout << "Estado: Ocupada" << endl;
                 }
+                std::cout << endl;
             }
             
             break;
@@ -358,7 +327,9 @@ int main(){
                         std::cout << "Estado: Ocupada" << endl;
                     }
 
-                    //preguntar si va a rentar la pelicula
+                    std::cout << endl;
+
+                    
                 }
 
             }
@@ -383,14 +354,12 @@ int main(){
                 std::cout << "Duracion: " << peliculas[result].duration << endl;
                 std::cout << "Precio: " << peliculas[result].price << endl;
                 if(peliculas[result].status == ""){
-                        std::cout << "Estado: Disponible" << endl; 
-                    } else{
-                        std::cout << "Estado: Ocupada" << endl;
-                    }
-            }
-
-            
-            
+                    std::cout << "Estado: Disponible" << endl; 
+                } else{
+                    std::cout << "Estado: Ocupada" << endl;
+                }
+                std::cout << endl;
+            }            
 
 
             break;
@@ -491,6 +460,8 @@ int main(){
         }
         break;
     case 5: // Rentar
+        size = sizeof(OrderByMovies) / sizeof(OrderByMovies[0]);    
+        quickSort(OrderByMovies, 0, size -1);
 
         if (!outdata) {
         std::cerr << "ERROR - EL ARCHIVO NO SE PUDO ABRIR.\n";
@@ -506,6 +477,15 @@ int main(){
         std::cout << "Ingrese la pelicula a rentar: ";
         std::cin >> pelicula_rented;
         outdata << " " << pelicula_rented;
+
+        result = binarySearch(OrderByMovies, size, pelicula_rented);
+        if (result == -1){
+            std::cout << "La pelicula no se encuentra en la base de datos" << endl;
+            return 0;
+        } else {
+            result = linearSearch(UnOrderedMovies, size, pelicula_search);
+            peliculas[result].status = "Ocupada";
+        }
         
 
         std::cout << "id del cliente: ";
@@ -515,6 +495,7 @@ int main(){
         std::cout << "Ingrese el nombre del cliente: ";
         std::cin >> nombre_cliente;
         outdata << " " << nombre_cliente;
+        peliculas[result].rent_to = nombre_cliente;
 
 
         std::cout << "Ingrese la fecha a rentar: " << endl;
@@ -523,6 +504,7 @@ int main(){
         std::cout << "xxxx-xx-xx" << endl;
         std::cin >> fecha_rent;
         outdata << " " << fecha_rent;
+        peliculas[result].rent_on = fecha_rent;
 
         std::cout << "Los datos han sido guardados.\n";
         std::cout << endl;
@@ -530,6 +512,7 @@ int main(){
         break;
         
     case 6: //buscar por nombre o por id a un cliente
+        std::cout << "Busqueda de clientes" << endl;    
         std::cout << "1.-Buscar por nombre" << endl;
         std::cout << "2.-Buscar por id" << endl;
         std::cin >> name_id;
@@ -546,12 +529,27 @@ int main(){
             std::cout << "Ingrese el nombre a buscar" << endl;
             std::cin.get();
             std::getline(std::cin, nombre_cliente);
+            for (int i = 0; i < nline; i++)
+            {
+                if(nombre_cliente == peliculas[i].rent_to){
+                    std::cout << "Usuario Encontrado" << endl;
+                    std::cout << "El usuario posee la pelicula: " << peliculas[i].movie << endl;
+                }
+            }
+            
         }
         else
         {
             std::cout << "Ingrese el id a buscar" << endl;
             std::cin.get();
             std::getline(std::cin, id_cliente);
+            for (int i = 0; i < nline; i++)
+            {
+                if(id_cliente == peliculas[i].rent_to){
+                    std::cout << "Usuario Encontrado" << endl;
+                    std::cout << "El usuario posee la pelicula: " << peliculas[i].movie << endl;
+                }
+            }
         }
         
         break;
