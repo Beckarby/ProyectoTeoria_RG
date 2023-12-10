@@ -5,6 +5,11 @@
 #include <bits/stdc++.h>
 #include <algorithm>
 #include <stdlib.h>
+#include <quicksort.h>
+#include <binarySearch.h>
+#include <linearSearch.h>
+#include <cassert>
+#define NDEBUG
 using namespace std;
 
 struct datos{
@@ -21,17 +26,12 @@ struct datos{
     string rent_exp;
 }peliculas[2000];
 
-template <typename T>
-int partition(T arr[], int start, int end);
-template <typename T>
-void quickSort(T arr[], int start, int end);
-template <typename T>
-int binarySearch(T arr[],int n,T x);
-template <typename T>
-int linearSearch(T arr[], int n, T x);
-
 
 ofstream outdata("data_renta.bin", std::ofstream::app );
+void TestLinearSearch();
+void TestQuicksort();
+void testBinarySearch();
+
 
 
 int main(){
@@ -707,62 +707,59 @@ int main(){
     outdata.close();
 }
 
-template <typename T>
-int partition(T arr[], int start, int end){
-	
-	int pivot = end;
-	int j = start;
-	for(int i=start;i<end;++i){
-		if(arr[i]<arr[pivot]){
-			swap(arr[i],arr[j]);
-			++j;
-		}
-	}
-	swap(arr[j],arr[pivot]);
-	return j;
-	
+void TestLinearSearch(){
+    // The function returns the index of the element if it is present in the array.
+     
+    int arr[] = {1, 2, 3, 4, 5};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int x = 3;
+    
+    int result = linearSearch(arr, n, x);
+    
+    assert(result == 2);
+    
+    // The function returns -1 when the element is not present in the array
+    x = 6;
+
+    int result = linearSearch(arr, n, x);
+
+    assert(result = -1);
 }
 
-// template function to perform quick sort on array arr
-template <typename T>
-void quickSort(T arr[], int start, int end ){
+void TestQuicksort(){
 
-	if(start<end){
-		int p = partition(arr,start,end);
-        quickSort(arr,start,p-1);
-        quickSort(arr,p+1,end);
-	}
-	
+    //the function should sort an array of random numbers in ascending order
+    int arr[] = {5,2,8,1,9};
+    int expected[] = {1,2,5,8,9};
+    quicksort(arr,0,4);
+    for (int i = 0; i < 5; i++)
+    {
+        assert(arr[i] == expected[i]);
+    }
+
+    //the function should handle an array of types that are not ints
+    char arr[] = {'e','a','c','b','d'};
+    char expexted[] = {'a','b','c','d','e'};
+    quicksort(arr,0,4);
+    for (int i = 0; i < 5; i++)
+    {
+        assert(arr[i] == expected[i]);
+    }
+     
+    
 }
 
-template<typename T>
-int binarySearch(T arr[],int n,T x)
-{
-	int start = 0;
-	int end = n-1;
-	while(start<=end)
-	{
-		int mid = (start+end)/2;
-		if(arr[mid]==x)	
-			return mid;
-		else if(arr[mid]<x)	
-			start = mid + 1;
-		else	
-			end = mid - 1;
-	}
-	return -1;
+void testBinarySearch(){
+    //the function should return the index of a element when it finds it
+    int arr[] = {1,2,3,4,5};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int x = 3;
+    int result = binarySearch(arr, n, x);
+    assert(result == 2);
+
+    //if element is not present it should return -1
+    x = 6;
+    int result = binarySearch(arr, n, x);
+    assert(result == -1);
 }
 
-template <typename T>
-int linearSearch(T arr[], int n, T x) {
-
-	for (int i = 0; i < n; ++i) {
-
-		if (arr[i] == x)
-			return i;
-
-	}
-
-	return -1;
-
-}
