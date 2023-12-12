@@ -31,6 +31,7 @@ template <typename T>
 int linearSearch(T arr[], int n, T x);
 
 void agg_nuevas_pelis();
+void eliminar_pelis();
 
 
 ofstream outdata("data_renta.bin", std::ofstream::app );
@@ -43,7 +44,6 @@ int main(){
     int count = 0;
     int nline = 0;
     long long int cont_pelis = 0;
-    long long int cont_peli_agg = 0;
     string line, word;
     string agg = " ";
     int filtro = 0; 
@@ -156,6 +156,7 @@ int main(){
     std::cout << "4.-Filtrado" << endl;
     std::cout << "5.-Rentar" << endl;
     std::cout << "6.-Busqueda de cliente" << endl;
+    std::cout << "7.-Eliminar una pelicula" << endl;
     std::cin >> resp;
 
     switch (resp)
@@ -233,7 +234,6 @@ int main(){
         case 3:
 
         agg_nuevas_pelis();
-       
         
         break;    
     case 4: 
@@ -635,6 +635,11 @@ int main(){
         }
         
         break;
+
+    case 7:
+       eliminar_pelis();
+
+      break;    
     default:
         std::cout << "ERROR - VALOR INVALIDO" << endl;
         return 0;
@@ -791,4 +796,44 @@ infile.open("../movies.csv", ios:: app);
          }while (resp != 1 && resp != 2);
          
         }while(resp != 2);
+}
+
+void eliminar_pelis(){
+    int resp = 0;
+    bool existe = false ;
+    ofstream infile;
+
+    infile.open("../movies.csv", ios:: out);
+
+    std::cout << "Vamos a eliminar una pelicula " << endl;
+    std::cout << "Ingrese el id de la pelicula a borrar" << endl;
+    std::cin >> resp;
+
+    for(int i = 0; i < 996; i++){
+
+        if(peliculas[i].id == resp){
+
+            existe = true;
+        }else if (existe == false ){
+          infile << peliculas[i].id << ";" << peliculas[i].movie << ";"
+          << peliculas[i].genders <<";" << peliculas[i].duration <<";" 
+          << peliculas[i].director << ";" << peliculas[i].price <<";" 
+          << peliculas[i].release_on + ";" << peliculas[i].rent_to << ";" 
+          << peliculas[i].rent_on << ";" << peliculas[i].status << endl;
+            
+        }else{
+            //esto es para cuando cuando ya encuentre la pelicula, reste una posicion a los ID
+            infile << peliculas[i - 1].id << ";" << peliculas[i].movie << ";"
+            << peliculas[i].genders <<";" << peliculas[i].duration <<";" 
+            << peliculas[i].director << ";" << peliculas[i].price <<";" 
+            << peliculas[i].release_on + ";" << peliculas[i].rent_to << ";" 
+            << peliculas[i].rent_on << ";" << peliculas[i].status << endl;
+
+        }
+    
+    
+    }
+
+
+
 }
