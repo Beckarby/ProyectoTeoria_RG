@@ -30,12 +30,13 @@ int binarySearch(T arr[],int n,T x);
 template <typename T>
 int linearSearch(T arr[], int n, T x);
 
+void agg_nuevas_pelis();
+
 
 ofstream outdata("data_renta.bin", std::ofstream::app );
 
 
 int main(){
-    datos peliculas[2000];
     int n = 0;
     int i = 0;
     int resp = 0;
@@ -230,70 +231,9 @@ int main(){
         break;
 
         case 3:
-        cont_peli_agg = cont_pelis;
-        //
 
-        do{
-         system("cls");
-         
-         cont_peli_agg = cont_peli_agg + 1;
-
-         std::cout << "*** Vamos a agregar nuevas peliculas al menu ***" << endl;
-         std::cout << " Ing. El nombre de la pelicula: " << endl;
-         std::cin.get();
-         getline (std::cin,agg);
-
-         peliculas[cont_peli_agg].id = cont_peli_agg;
-         peliculas[cont_peli_agg].movie = agg ;
-        
-         std::cout << " Ing. El genero: "<< endl;
-         std::cin.get();
-         getline (std::cin,agg);
-
-         peliculas[cont_peli_agg].genders = agg;
-
-         std::cout << " Ing. la duracion: " << endl;
-         std::cin.get();
-         std::cin>>agg;
-
-         peliculas[cont_peli_agg].duration = stoi(agg);
-
-         std::cout << " Ing. El nombre del director: " << endl;
-         std::cin.get();
-         getline (std::cin,agg);
-
-         peliculas[cont_peli_agg].director = agg;
-
-         std::cout << " Ing. La fecha de lanzamiento (escribalo con espacios; primero el dia,mes y año): " << endl;
-         std::cin.get();
-         getline (std::cin,agg);
-
-         peliculas[cont_peli_agg].release_on = agg;
-
-         infile << peliculas[cont_peli_agg].id << ";" << peliculas[cont_peli_agg].movie + ";"
-          << peliculas[cont_peli_agg].genders +";" << peliculas[cont_peli_agg].duration <<";" 
-          << peliculas[cont_peli_agg].director + ";" << peliculas[cont_peli_agg].price <<";" 
-          << peliculas[cont_peli_agg].release_on + ";" << peliculas[cont_peli_agg].rent_to + ";" 
-          << peliculas[cont_peli_agg].status << endl;
-
-         std::cout << " Quieres agregar otras??:" << endl;
-         std::cout << " 1 para si y 2 para no" << endl;
-
-          std::cin.get();
-         do{
-             std::cin >> resp;
-
-             if( resp != 1  && resp != 2){
-                std::cout << "Error...." << endl;
-                std::cout << "No pudo ser procesado por favor ingrese un numero valido" << endl;
-
-             }else{
-                std::cout << "Procesando.." << endl;
-                system("cls");
-             }
-         }while (resp != 1 && resp != 2);
-         
-        }while(resp != 2);
+        agg_nuevas_pelis();
+       
         
         break;    
     case 4: 
@@ -544,9 +484,7 @@ int main(){
 
                 }
                 std::cout << endl;
-                
 
-                
             }
             else if (tipo_filtro_precio == 2)
             {
@@ -765,4 +703,92 @@ int linearSearch(T arr[], int n, T x) {
 
 	return -1;
 
+}
+
+void agg_nuevas_pelis(){
+int cont_peli_agg = 1000;
+int resp = 0;
+
+ofstream infile;
+
+infile.open("../movies.csv", ios:: app);
+        infile.seekp(1001);
+        string agg;
+
+        do{
+         system("cls");
+         
+         cont_peli_agg = cont_peli_agg + 1;
+
+         cout << cont_peli_agg << endl;
+
+         std::cout << "*** Vamos a agregar nuevas peliculas al menu ***" << endl;
+         std::cout << " Ing. El nombre de la pelicula: " << endl;
+         std::cin.get();
+         getline (std::cin,agg);
+
+         peliculas[cont_peli_agg].id = cont_peli_agg;
+         peliculas[cont_peli_agg].movie = agg ;
+        
+         std::cout << " Ing. El genero: "<< endl;
+         getline (std::cin,agg);
+
+         peliculas[cont_peli_agg].genders = agg;
+
+         std::cout << " Ing. la duracion: " << endl;
+         std::cin>>agg;
+
+         peliculas[cont_peli_agg].duration = stoi(agg);
+
+         std::cout << " Ing. El nombre del director: " << endl;
+         std::cin.get();
+         getline (std::cin,agg);
+
+         peliculas[cont_peli_agg].director = agg;
+
+         std::cout << " Ing. La fecha de lanzamiento (escribalo con espacios; primero el dia,mes y year): " << endl;
+         std::cin.get();
+         getline (std::cin,agg);
+
+         peliculas[cont_peli_agg].release_on = agg;
+
+         std::cout << "Cual es su precio??:" << endl;
+         cin >> agg;
+
+         peliculas[cont_peli_agg].price = stof(agg);
+
+         peliculas[cont_peli_agg].rent_to = "Nadie ";
+         peliculas[cont_peli_agg].status = "Disponible";
+
+
+         infile << peliculas[cont_peli_agg].id << ";" << peliculas[cont_peli_agg].movie << ";"
+          << peliculas[cont_peli_agg].genders <<";" << peliculas[cont_peli_agg].duration <<";" 
+          << peliculas[cont_peli_agg].director << ";" << peliculas[cont_peli_agg].price <<";" 
+          << peliculas[cont_peli_agg].release_on + ";" << peliculas[cont_peli_agg].rent_to << ";" 
+          << peliculas[cont_peli_agg].rent_on << ";" << peliculas[cont_peli_agg].status << endl;
+
+          cout << peliculas[cont_peli_agg].id << ";" << peliculas[cont_peli_agg].movie + ";"
+          << peliculas[cont_peli_agg].genders +";" << peliculas[cont_peli_agg].duration <<";" 
+          << peliculas[cont_peli_agg].director + ";" << peliculas[cont_peli_agg].price <<";" 
+          << peliculas[cont_peli_agg].release_on + ";" << peliculas[cont_peli_agg].rent_to + ";" 
+          << peliculas[cont_peli_agg].rent_on << ";" << peliculas[cont_peli_agg].status << endl;
+
+         std::cout << " Quieres agregar otras??:" << endl;
+         std::cout << " 1 para si y 2 para no" << endl;
+
+          std::cin.get();
+         do{
+             std::cin >> resp;
+
+             if( resp != 1  && resp != 2){
+                std::cout << "Error...." << endl;
+                std::cout << "No pudo ser procesado por favor ingrese un numero valido" << endl;
+
+             }else{
+                std::cout << "Procesando.." << endl;
+                system("cls");
+             }
+         }while (resp != 1 && resp != 2);
+         
+        }while(resp != 2);
 }
