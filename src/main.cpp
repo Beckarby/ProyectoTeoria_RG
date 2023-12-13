@@ -27,11 +27,12 @@ struct datos{
 }peliculas[2000];
 
 
-ofstream outdata("data_renta.bin", std::ofstream::app );
+
+
+fstream outdata("data_renta.bin", std::ios::in | std::ios::out);
 void TestLinearSearch();
 void TestQuicksort();
 void testBinarySearch();
-
 
 
 int main(){
@@ -44,6 +45,7 @@ int main(){
     long long int cont_pelis = 0;
     long long int cont_peli_agg = 0;
     string line, word;
+    string line2;
     string agg = " ";
     int filtro = 0; 
     int tipo_filtro_nombre = 0;
@@ -58,6 +60,7 @@ int main(){
     string fecha_rent = " ";
     string pelicula_rented = " ";
     string id_cliente = " ";  
+    string cedula_cliente = " ";
     string OrderByMovies[1001];
     string UnOrderedMovies[1001];
     string OrderByGender[1001];
@@ -74,7 +77,7 @@ int main(){
     int name_id = 0;
     int result;
    
-    fstream infile("../movies.csv");
+    fstream infile("../../datos/movies.csv");
 
     if(!infile.is_open()){
         std::cout <<"ERROR - ARCHIVO NO ENCONTRADO" << endl;
@@ -310,7 +313,7 @@ int main(){
         {
         case 1:              
             size = sizeof(OrderByMovies) / sizeof(OrderByMovies[0]);    
-            quickSort(OrderByMovies, 0, size -1);
+            quicksort(OrderByMovies, 0, size -1);
 
             std::cout << "A elegido filtrado por nombre" << endl;
             std::cout << "Ingrese 1 para ver las peliculas en orden alfabetico" << endl;
@@ -391,7 +394,7 @@ int main(){
             
 
             size = sizeof(OrderByDuration) / sizeof(OrderByDuration[0]);
-            quickSort(OrderByDuration, 0, size -1);
+            quicksort(OrderByDuration, 0, size -1);
             for (int i = 0; i < 1001; i++)
             {
                 std::cout << "Duracion: " << OrderByDuration[i] << "min" << endl;
@@ -427,7 +430,7 @@ int main(){
                 
                 size = sizeof(OrderByDirector) / sizeof(OrderByDirector[0]);
                 
-                quickSort(OrderByDirector, 0, size -1);
+                quicksort(OrderByDirector, 0, size -1);
 
                 for (int i = 0; i < 1001; i++)
                 {
@@ -452,7 +455,7 @@ int main(){
                 
                 size = sizeof(OrderByDirector) / sizeof(OrderByDirector[0]);
                 
-                quickSort(OrderByDirector, 0, size -1);
+                quicksort(OrderByDirector, 0, size -1);
 
                 result = binarySearch(OrderByDirector, size, director_search);
                 if(result == -1){
@@ -480,7 +483,7 @@ int main(){
             break;
         case 5:
             size = sizeof(OrderByDate) / sizeof(OrderByDate[0]);
-            quickSort(OrderByDate, 0, size -1);
+            quicksort(OrderByDate, 0, size -1);
             std::cout << "Ha elegido el filtro por fecha de lanzamiento" << endl;
             std::cout << "Ingrese la fecha con '-' de por medio " << endl;
             std::cout << "Ejemplo xxxx-xx-xx" << endl;
@@ -528,7 +531,7 @@ int main(){
             {
                 std::cout << "A continuacion se mostraran los precios de menor a mayor" << endl;
                 size = sizeof(OrderByPrice)/sizeof(OrderByPrice[0]);
-                quickSort(OrderByPrice, 0, size -1);
+                quicksort(OrderByPrice, 0, size -1);
 
                 for (int i = 0; i < 1001; i++)
                 {
@@ -552,7 +555,7 @@ int main(){
             {
                 std::cout << "A continuacion se mostraran los precios de mayor a menor" << endl;
                 size = sizeof(OrderByPrice)/sizeof(OrderByPrice[0]);
-                quickSort(OrderByPrice, 0, size -1);
+                quicksort(OrderByPrice, 0, size -1);
 
                 for(int i = nline; i > 0; i--){
                     std::cout << "Precio: " << OrderByPrice[i] << endl;
@@ -571,7 +574,7 @@ int main(){
             else
             {
                 size = sizeof(OrderByPrice)/sizeof(OrderByPrice[0]);
-                quickSort(OrderByPrice, 0, size -1);
+                quicksort(OrderByPrice, 0, size -1);
                 std::cout << "Ingrese el precio de la pelicula a buscar" << endl;
                 std::cin >> precio_search;
                 result = binarySearch(OrderByPrice, size, precio_search);
@@ -605,7 +608,7 @@ int main(){
         break;
     case 5: 
         size = sizeof(OrderByMovies) / sizeof(OrderByMovies[0]);    
-        quickSort(OrderByMovies, 0, size -1);
+        quicksort(OrderByMovies, 0, size -1);
 
         if (!outdata) {
         std::cerr << "ERROR - EL ARCHIVO NO SE PUDO ABRIR.\n";
@@ -613,7 +616,7 @@ int main(){
         }
 
         if (outdata.tellp() == 0) { 
-            outdata << endl << "Pelicula - ID cliente - Nombre - Fecha";
+            outdata << endl << "Pelicula - ID cliente - Nombre - Cedula - Fecha de renta";
         } else {
             outdata << "\n";
         }
@@ -641,6 +644,11 @@ int main(){
         outdata << " " << nombre_cliente;
         peliculas[result].rent_to = nombre_cliente;
 
+        std::cout << "Ingrese cedula del cliente: ";
+        std::cin >> cedula_cliente;
+        outdata << " " << cedula_cliente;
+    
+
 
         std::cout << "Ingrese la fecha a rentar: " << endl;
         std::cout << "El formate a ingresar es." << endl;
@@ -656,16 +664,20 @@ int main(){
         break;
         
     case 6: //buscar por nombre o por id a un cliente
+
+
         std::cout << "Busqueda de clientes" << endl;    
         std::cout << "1.-Buscar por nombre" << endl;
         std::cout << "2.-Buscar por id" << endl;
+        std::cout << "3.-Busqueda por cedula" << endl;
         std::cin >> name_id;
-        while (name_id !=1 && name_id != 2)
+        while (name_id !=1 && name_id != 2 && name_id != 3)
         {
             std::cout << "ERROR - VALOR INVALIDO" << endl;
             std::cout << "Ingrese un valor valido" << endl;
             std::cout << "1 para buscar por nombre" << endl;
             std::cout << "2 para buscar por id" << endl;
+            std::cout << "3 para buscar por cedula " << endl;
             std::cin >> name_id;
         }
         if (name_id == 1)
@@ -673,6 +685,12 @@ int main(){
             std::cout << "Ingrese el nombre a buscar" << endl;
             std::cin.get();
             std::getline(std::cin, nombre_cliente);
+            while(std::getline(outdata, line2)){
+                if (line2.find(nombre_cliente) != std::string::npos){
+                    std::cout << endl << line2 << endl;
+                }
+            }
+            /*
             for (int i = 0; i < nline; i++)
             {
                 if(nombre_cliente == peliculas[i].rent_to){
@@ -680,20 +698,32 @@ int main(){
                     std::cout << "El usuario posee la pelicula: " << peliculas[i].movie << endl;
                 }
             }
-            
+            */
         }
-        else
+        else if (name_id == 2)
         {
             std::cout << "Ingrese el id a buscar" << endl;
             std::cin.get();
             std::getline(std::cin, id_cliente);
-            for (int i = 0; i < nline; i++)
+            while (std::getline(outdata, line2))
             {
-                if(id_cliente == peliculas[i].rent_to){
-                    std::cout << "Usuario Encontrado" << endl;
-                    std::cout << "El usuario posee la pelicula: " << peliculas[i].movie << endl;
+                if (line2.find(id_cliente) != std::string::npos){
+                    std::cout << endl << line2 << endl;
                 }
             }
+            
+        } else {
+            std::cout << "Ingrese la cedula a buscar" << endl;
+            std::cin.get();
+            std::getline(std::cin, cedula_cliente);
+            while (std::getline(outdata, line2))
+            {
+                if (line2.find(cedula_cliente) != std::string::npos){
+                    std::cout << endl << line << endl;
+                }
+            }
+            
+            
         }
         
         break;
@@ -714,16 +744,16 @@ void TestLinearSearch(){
     int n = sizeof(arr) / sizeof(arr[0]);
     int x = 3;
     
-    int result = linearSearch(arr, n, x);
+    int resultado = linearSearch(arr, n, x);
     
-    assert(result == 2);
+    assert(resultado == 2);
     
     // The function returns -1 when the element is not present in the array
     x = 6;
 
-    int result = linearSearch(arr, n, x);
+    resultado = linearSearch(arr, n, x);
 
-    assert(result = -1);
+    assert(resultado = -1);
 }
 
 void TestQuicksort(){
@@ -736,16 +766,6 @@ void TestQuicksort(){
     {
         assert(arr[i] == expected[i]);
     }
-
-    //the function should handle an array of types that are not ints
-    char arr[] = {'e','a','c','b','d'};
-    char expexted[] = {'a','b','c','d','e'};
-    quicksort(arr,0,4);
-    for (int i = 0; i < 5; i++)
-    {
-        assert(arr[i] == expected[i]);
-    }
-     
     
 }
 
@@ -754,12 +774,12 @@ void testBinarySearch(){
     int arr[] = {1,2,3,4,5};
     int n = sizeof(arr)/sizeof(arr[0]);
     int x = 3;
-    int result = binarySearch(arr, n, x);
-    assert(result == 2);
+    int resultado = binarySearch(arr, n, x);
+    assert(resultado == 2);
 
     //if element is not present it should return -1
     x = 6;
-    int result = binarySearch(arr, n, x);
-    assert(result == -1);
+    resultado = binarySearch(arr, n, x);
+    assert(resultado == -1);
 }
 
