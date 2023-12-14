@@ -716,7 +716,7 @@ int resp = 0;
 
 ofstream infile;
 
-infile.open("../movies.csv", ios:: app);
+infile.open("../datos/movies.csv", ios:: app);
         infile.seekp(1001);
         string agg;
 
@@ -724,8 +724,6 @@ infile.open("../movies.csv", ios:: app);
          system("cls");
          
          cont_peli_agg = cont_peli_agg + 1;
-
-         cout << cont_peli_agg << endl;
 
          std::cout << "*** Vamos a agregar nuevas peliculas al menu ***" << endl;
          std::cout << " Ing. El nombre de la pelicula: " << endl;
@@ -803,13 +801,13 @@ void eliminar_pelis(){
     bool existe = false ;
     ofstream infile;
 
-    infile.open("../movies.csv", ios:: out);
+    infile.open("../datos/movies.csv", ios:: out);
 
     std::cout << "Vamos a eliminar una pelicula " << endl;
     std::cout << "Ingrese el id de la pelicula a borrar" << endl;
     std::cin >> resp;
 
-    for(int i = 0; i < 996; i++){
+    for(int i = 0; i < 1003; i++){
 
         if(peliculas[i].id == resp){
 
